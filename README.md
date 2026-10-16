@@ -3,7 +3,7 @@
 [![tests](https://github.com/liujunchao-nju/legal-writing-samples/actions/workflows/tests.yml/badge.svg)](https://github.com/liujunchao-nju/legal-writing-samples/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-中文法律文书范文库：六类常见文书的要素模型与写作大纲，六篇基于公开案例改写的范文（逐篇标注参照案号），以及一个把条号引用纳入自动校验的检查工具。
+中文法律文书范文库：十五类常见文书的要素模型与写作大纲，十五篇基于公开案例（或脱敏示例）改写的范文（逐篇标注参照案号或来源），一个把条号引用纳入自动校验的检查工具，以及立场维度与离线 HTML 产物。同时提供可直接克隆安装的 Agent Skill 形态，降低使用门槛。
 
 ## 为什么做这个
 
@@ -39,6 +39,14 @@ lws show --sample 05
 
 # 生成写作大纲（结构可填的骨架）
 lws outline --type appeal --out 上诉状大纲.md
+
+# 立场维度：按原告/被告等立场翻转提示
+lws outline --type complaint --party 原告
+lws check  --type complaint --party 被告 --file 答辩状.md
+
+# 离线 HTML 产物：单文件、内联样式、无任何外部引用
+lws outline --type counterclaim --party 反诉人 --format html --out 大纲.html
+lws check  --type complaint --file 草稿.md --format html --out 校验报告.html
 
 # 校验一份文书的要素是否齐备
 lws check --type complaint --file 我的起诉状.md
@@ -77,6 +85,15 @@ print([s["reference"]["case_id"] for s in list_samples()])
 | `appeal` | 民事上诉状 | 民事诉讼文书 | 民事诉讼法第 171 条、第 172 条 |
 | `retrial` | 民事再审申请书 | 民事诉讼文书 | 民事诉讼法第 210 条、第 214 条、第 216 条 |
 | `defense-speech` | 刑事辩护词 | 刑事诉讼文书 | 刑事诉讼法第 37 条、刑法第 27 条、第 67 条 |
+| `counterclaim` | 民事反诉状 | 民事诉讼文书 | 民事诉讼法第 143 条、民诉法解释第 232 条 |
+| `preservation` | 诉讼财产保全申请书 | 民事诉讼文书 | 民事诉讼法第 103 条、第 105 条、第 108 条 |
+| `evidence-investigation` | 调查收集证据申请书 | 民事诉讼文书 | 民事诉讼法第 67 条、第 64 条 |
+| `jurisdiction-objection` | 管辖权异议申请书 | 民事诉讼文书 | 民事诉讼法第 130 条 |
+| `withdrawal` | 撤诉申请书 | 民事诉讼文书 | 民事诉讼法第 148 条、民诉法解释第 238 条 |
+| `payment-order` | 支付令申请书 | 民事诉讼文书 | 民事诉讼法第 225 条、民诉法解释第 427 条、第 429 条、劳动争议调解仲裁法第 16 条 |
+| `enforcement` | 强制执行申请书 | 民事诉讼文书 | 民事诉讼法第 247 条、第 250 条、第 259 条 |
+| `legal-opinion` | 法律意见书 | 非诉法律文书 | 律师法第 28 条、第 31 条 |
+| `lawyer-letter` | 律师函 | 非诉法律文书 | 律师法第 28 条、第 31 条 |
 
 新增一类文书不需要改代码，在 `lws/data/documents/` 下加一个 YAML 文件即可。
 
@@ -90,12 +107,21 @@ print([s["reference"]["case_id"] for s in list_samples()])
 | 04 民事上诉状（劳动关系确认纠纷） | appeal | 同上（二审阶段） | 人民法院案例库参考案例 2023-07-2-490-001 |
 | 05 民事再审申请书（商品房预售合同履行） | retrial | 上海某公司诉青岛某房地产公司房屋买卖合同纠纷案 | 人民法院案例库参考案例 2023-01-2-091-001 |
 | 06 刑事辩护词（非法捕捞水产品罪，从犯） | defense-speech | 黄某辉、陈某等 8 人非法捕捞水产品刑事附带民事公益诉讼案 | 最高人民法院指导性案例 213 号 |
+| 07 民事反诉状（买卖合同质量异议反诉） | counterclaim | 甲设备公司诉乙工程公司买卖合同纠纷反诉案（示例脱敏） | 示例范文（脱敏，仅供格式参考） |
+| 08 诉讼财产保全申请书（民间借贷诉中保全） | preservation | 徐某诉陈某民间借贷纠纷财产保全案（示例脱敏） | 示例范文（脱敏，仅供格式参考） |
+| 09 强制执行申请书（货款债权执行） | enforcement | 某贸易公司申请执行某制造公司买卖合同纠纷案（示例脱敏） | 示例范文（脱敏，仅供格式参考） |
+| 10 管辖权异议申请书（借款纠纷管辖连接点异议） | jurisdiction-objection | 张某诉李某民间借贷纠纷管辖权异议案（示例脱敏） | 示例范文（脱敏，仅供格式参考） |
+| 11 撤诉申请书（和解后撤诉） | withdrawal | 王某诉赵某房屋租赁纠纷撤诉案（示例脱敏） | 示例范文（脱敏，仅供格式参考） |
+| 12 支付令申请书（拖欠货款申请支付令） | payment-order | 某建材公司申请支付令案（示例脱敏） | 示例范文（脱敏，仅供格式参考） |
+| 13 调查收集证据申请书（申请法院调取银行流水） | evidence-investigation | 刘某诉孙某民间借贷纠纷调查取证案（示例脱敏） | 示例范文（脱敏，仅供格式参考） |
+| 14 律师函（催收股权回购款） | lawyer-letter | 某投资机构委托发函催告案（示例脱敏） | 示例范文（脱敏，仅供格式参考） |
+| 15 法律意见书（股权代持关系效力分析） | legal-opinion | 某项目股权代持专项法律意见（示例脱敏） | 示例范文（脱敏，仅供格式参考） |
 
-每篇范文的 front matter 里都记录了参照案例的编号、名称、来源、原审法院与改写说明。01 与 02、03 与 04 分别参照同一案件，构成对照。
+每篇范文的 front matter 里都记录了参照案例的编号、名称、来源、原审法院与改写说明。01 与 02、03 与 04 分别参照同一案件，构成对照；07 至 15 为脱敏示例范文，用于演示新增文书类型的要素组织，不对应特定真实案件。
 
 ## 条号核验
 
-`lws/data/laws.yaml` 是唯一合法的引用来源，收录 23 条现行有效条文，覆盖民事诉讼法、民事诉讼法司法解释、劳动争议调解仲裁法、刑法、刑事诉讼法与民法典合同通则。每条都记录了核验日期与来源。
+`lws/data/laws.yaml` 是唯一合法的引用来源，收录 47 条现行有效条文，覆盖民事诉讼法、民事诉讼法司法解释、劳动争议调解仲裁法、刑法、刑事诉讼法、民法典与律师法（2026 修正）。每条都记录了核验日期与来源。
 
 文书要素里的 `basis` 引用必须以 key 形式命中该文件；范文正文里以汉字写成的条号，会被提取出来与条号清单比对。两条路径任一出现未登记条号，`lws verify` 与单元测试都会失败。
 
@@ -105,7 +131,7 @@ print([s["reference"]["case_id"] for s in list_samples()])
 
 ```
 lws/data/
-  laws.yaml               经核验的法条库（引用白名单）
+  laws.yaml               经核验的法条库（引用白名单，47 条）
   documents/
     complaint.yaml        起诉状的要素模型
     defense.yaml          答辩状
@@ -113,9 +139,19 @@ lws/data/
     appeal.yaml           上诉状
     retrial.yaml          再审申请书
     defense-speech.yaml   刑事辩护词
+    counterclaim.yaml     反诉状
+    preservation.yaml     诉讼财产保全申请书
+    evidence-investigation.yaml  调查收集证据申请书
+    jurisdiction-objection.yaml  管辖权异议申请书
+    withdrawal.yaml       撤诉申请书
+    payment-order.yaml    支付令申请书
+    enforcement.yaml      强制执行申请书
+    legal-opinion.yaml    法律意见书
+    lawyer-letter.yaml    律师函
   samples/
     01-complaint-sales.md       范文（含 front matter 来源标注）
     ...
+    15-legal-opinion.md
 ```
 
 每份文书类型包含：`legal_basis`（主要依据）、`structure`（结构顺序）、`elements`（要素清单，带必备与否、命中关键词、依据与说明）、`tips`（写作要点）。

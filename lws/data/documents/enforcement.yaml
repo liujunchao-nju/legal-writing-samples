@@ -1,0 +1,100 @@
+type: enforcement
+label: 强制执行申请书
+category: 民事诉讼文书
+usage: 义务人不履行生效法律文书确定的义务时，权利人向有管辖权的人民法院申请强制执行。
+
+party_notes:
+  申请执行人: 申请执行期限为二年，从文书规定履行期最后一日起算；应提供被执行人财产线索以提高执行效率。
+  被执行人: 收到执行通知后应主动履行；拒不履行且隐匿财产的，法院可搜查并可纳入失信名单。
+
+legal_basis:
+  - 民事诉讼法第247条
+  - 民事诉讼法第250条
+  - 民事诉讼法第259条
+
+structure:
+  - 文书标题：强制执行申请书
+  - 申请执行人身份信息
+  - 被执行人身份信息
+  - 申请执行依据
+  - 申请执行请求
+  - 事实与理由
+  - 财产线索
+  - 此致有管辖权的人民法院
+  - 申请执行人签名与日期
+
+elements:
+  - id: party-applicant
+    label: 申请执行人身份信息
+    required: true
+    keywords: [申请执行人]
+    parties: [申请执行人]
+    basis:
+      - 民事诉讼法第247条
+    note: 写明姓名、住所、联系方式；法人写明名称、住所、法定代表人。
+
+  - id: party-respondent
+    label: 被执行人身份信息
+    required: true
+    keywords: [被执行人]
+    parties: [被执行人]
+    basis:
+      - 民事诉讼法第247条
+    note: 写明被执行人身份信息及已知财产线索（账户、房产、车辆、股权）。
+
+  - id: enforce-basis
+    label: 申请执行依据
+    required: true
+    keywords: [依据, 执行依据, 判决书, 调解书]
+    parties: [申请执行人]
+    basis:
+      - 民事诉讼法第247条
+    note: 写明生效法律文书案号、作出机关、生效日期与给付内容。
+
+  - id: enforce-request
+    label: 申请执行请求
+    required: true
+    keywords: [请求事项, 申请执行, 请求执行]
+    parties: [申请执行人]
+    basis:
+      - 民事诉讼法第247条
+      - 民事诉讼法第250条
+    note: 写明请求强制执行的标的（金钱、行为、特定物）及迟延履行利息。
+
+  - id: enforce-reason
+    label: 事实与理由
+    required: true
+    keywords: [事实与理由, 事实和理由]
+    basis:
+      - 民事诉讼法第247条
+    note: 说明文书已生效且履行期届满、被执行人拒不履行；附生效证明。
+
+  - id: enforce-assets
+    label: 财产线索
+    required: false
+    keywords: [财产线索, 财产, 账户, 房产]
+    parties: [申请执行人]
+    basis:
+      - 民事诉讼法第259条
+    note: 提供被执行人财产或隐匿线索，便于法院查控、搜查。
+
+  - id: enforce-court
+    label: 有管辖权的人民法院
+    required: true
+    keywords: [此致]
+    basis:
+      - 民事诉讼法第247条
+    note: 一般向第一审人民法院或与第一审同级被执行财产所在地法院申请；「此致」后写全称。
+
+  - id: enforce-signature
+    label: 申请执行人签名与日期
+    required: true
+    keywords: [申请执行人, 具状人]
+    basis:
+      - 民事诉讼法第247条
+    note: 申请执行人签名或盖章；法人加盖公章；日期写提交日。
+
+tips:
+  - 申请执行期限为二年，自文书规定履行期最后一日起算；分期履行从最后一期届满起算。
+  - 财产线索是执行成败关键：尽可能提供账户、不动产、车辆、股权等具体信息。
+  - 可申请对被执行人限制消费、纳入失信名单，倒逼履行。

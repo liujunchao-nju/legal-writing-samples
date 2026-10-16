@@ -17,7 +17,14 @@ import sys
 from .documents import check_document, list_documents, load_document
 from .documents import validate_all as validate_documents
 from .laws import load_laws, meta
-from .report import format_check, render_check, render_outline, render_sample
+from .report import (
+    format_check,
+    render_check,
+    render_check_html,
+    render_outline,
+    render_outline_html,
+    render_sample,
+)
 from .samples import list_by_type, list_samples, load_sample
 from .samples import validate_all as validate_samples
 
@@ -73,7 +80,10 @@ def _cmd_show(args) -> int:
 
 
 def _cmd_outline(args) -> int:
-    text = render_outline(args.type)
+    if args.format == "html":
+        text = render_outline_html(args.type, args.party)
+    else:
+        text = render_outline(args.type, args.party)
     if args.out:
         with open(args.out, "w", encoding="utf-8") as fh:
             fh.write(text)
@@ -100,17 +110,21 @@ def _cmd_check(args) -> int:
         print("请用 --type 指定文书类型", file=sys.stderr)
         return 2
 
-    result = check_document(doc_type, text)
-    if args.markdown:
-        out = render_check(result)
-        if args.out:
-            with open(args.out, "w", encoding="utf-8") as fh:
-                fh.write(out)
-            print(f"已写入 {args.out}")
-        else:
-            sys.stdout.write(out)
+    result = check_document(doc_type, text, args.party)
+    if args.format == "html":
+        out = render_check_html(result, args.party)
+    elif args.markdown:
+        out = render_check(result, args.party)
     else:
         print(format_check(result))
+        return 0 if result["complete"] else 1
+
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as fh:
+            fh.write(out)
+        print(f"已写入 {args.out}")
+    else:
+        sys.stdout.write(out)
     return 0 if result["complete"] else 1
 
 
@@ -163,6 +177,8 @@ def main(argv=None) -> int:
 
     outline = sub.add_parser("outline", help="生成写作大纲")
     outline.add_argument("--type", required=True)
+    outline.add_argument("--party", help="立场视角，如 原告 / 被告 / 上诉人 / 被申请人 / 辩护人")
+    outline.add_argument("--format", choices=["md", "html"], default="md", help="输出格式（html 为单文件离线网页）")
     outline.add_argument("--out", help="输出文件；缺省打印到终端")
     outline.set_defaults(func=_cmd_outline)
 
@@ -170,8 +186,10 @@ def main(argv=None) -> int:
     check.add_argument("--type", help="文书类型；配合 --sample 时可省略")
     check.add_argument("--file", help="待校验的文书文本")
     check.add_argument("--sample", help="校验某篇范文自身")
-    check.add_argument("--markdown", action="store_true", help="输出 Markdown 报告")
-    check.add_argument("--out", help="配合 --markdown 写入文件")
+    check.add_argument("--party", help="立场视角，如 原告 / 被告 / 上诉人 / 被申请人 / 辩护人")
+    check.add_argument("--format", choices=["md", "html"], default="md", help="输出格式（html 为单文件离线网页）")
+    check.add_argument("--markdown", action="store_true", help="输出 Markdown 报告（等价于 --format md）")
+    check.add_argument("--out", help="配合 --format/--markdown 写入文件")
     check.set_defaults(func=_cmd_check)
 
     laws = sub.add_parser("laws", help="查看经核验的法条库")

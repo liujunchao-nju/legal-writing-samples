@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "legal-writing-samples"
-version = "0.1.0"
-description = "法律文书范文库：要素模型、写作大纲与法条条号校验"
+version = "0.2.0"
+description = "中文法律文书范文库：十五类文书要素模型、写作大纲、立场维度与法条条号校验"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [{ name = "刘俊超", email = "251820244@smail.nju.edu.cn" }]
-keywords = ["法律文书", "legal writing", "范文", "起诉状", "答辩状", "上诉状", "辩护词", "中国法"]
+keywords = ["法律文书", "legal writing", "范文", "起诉状", "答辩状", "上诉状", "辩护词", "反诉状", "财产保全", "管辖权异议", "强制执行", "律师函", "法律意见书", "支付令", "中国法"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",

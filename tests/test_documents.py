@@ -20,6 +20,15 @@ EXPECTED_TYPES = {
     "appeal",
     "retrial",
     "defense-speech",
+    "counterclaim",
+    "preservation",
+    "evidence-investigation",
+    "legal-opinion",
+    "lawyer-letter",
+    "enforcement",
+    "jurisdiction-objection",
+    "withdrawal",
+    "payment-order",
 }
 
 
@@ -97,3 +106,36 @@ def test_invalid_document_rejected(tmp_path, monkeypatch):
     monkeypatch.setattr(documents, "DOCUMENTS_DIR", tmp_path)
     with pytest.raises(DocumentError):
         documents.validate_all()
+
+
+def test_check_document_with_party_returns_note():
+    text = "原告 被告 诉讼请求 事实与理由 证据 此致 具状人"
+    result = check_document("complaint", text, party="原告")
+    assert result["party"] == "原告"
+    assert result["party_note"]
+    assert "诉讼请求" in result["party_note"]
+
+
+def test_check_document_party_note_absent_for_unknown_party():
+    text = "原告 被告 诉讼请求 事实与理由 证据 此致 具状人"
+    result = check_document("complaint", text, party="不存在的立场")
+    assert result["party_note"] is None
+
+
+def test_outline_html_self_contained():
+    from lws.report import render_outline_html
+
+    html = render_outline_html("appeal")
+    assert "<style" in html
+    assert "http://" not in html
+    assert "https://" not in html
+
+
+def test_check_html_self_contained():
+    from lws.report import render_check_html, render_outline
+
+    result = check_document("complaint", "原告 被告 诉讼请求 事实与理由 证据 此致 具状人")
+    html = render_check_html(result)
+    assert "http://" not in html
+    assert "https://" not in html
+

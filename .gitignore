@@ -11,3 +11,4 @@ htmlcov/
 .idea/
 .vscode/
 .DS_Store
+examples/_preview/

@@ -1,0 +1,81 @@
+type: legal-opinion
+label: 法律意见书
+category: 非诉法律文书
+usage: 律师事务所或律师接受委托，就特定法律问题进行研究分析后向委托人出具的专业书面意见。
+
+party_notes:
+  委托人: 提供完整、真实的事实与材料是意见可靠的前提；意见基于现有材料作出，材料变化可能影响结论。
+  受托律所: 依据事实与法律独立出具意见，应注明检索依据与假设前提；区分事实认定与法律判断。
+
+legal_basis:
+  - 律师法第28条
+  - 律师法第31条
+
+structure:
+  - 文书标题：法律意见书
+  - 致送对象与事项
+  - 事实与背景
+  - 出具依据（法律与事实假设）
+  - 法律分析
+  - 结论与建议
+  - 署名与日期（加盖律师事务所公章）
+
+elements:
+  - id: opinion-to
+    label: 致送对象与事项
+    required: true
+    keywords: [致, 关于, 事项]
+    parties: [委托人]
+    basis:
+      - 律师法第31条
+    note: 写明委托人与委托事项；明确意见书针对的具体法律问题。
+
+  - id: opinion-facts
+    label: 事实与背景
+    required: true
+    keywords: [事实, 背景, 基本情况]
+    parties: [委托人]
+    basis:
+      - 律师法第28条
+    note: 客观陈述委托人提供的事实与材料；注明「以现有材料为准」。
+
+  - id: opinion-basis
+    label: 出具依据
+    required: true
+    keywords: [依据, 基于, 前提]
+    parties: [受托律所]
+    basis:
+      - 律师法第31条
+    note: 列明适用的法律法规与检索来源，以及所作事实假设与限制。
+
+  - id: opinion-analysis
+    label: 法律分析
+    required: true
+    keywords: [分析, 论证, 法律评价]
+    parties: [受托律所]
+    basis:
+      - 律师法第31条
+    note: 分点论证，区分事实认定与法律判断；援引具体法条并说明适用。
+
+  - id: opinion-conclusion
+    label: 结论与建议
+    required: true
+    keywords: [结论, 建议, 意见]
+    parties: [受托律所]
+    basis:
+      - 律师法第28条
+    note: 给出明确结论与可操作建议；提示风险与不确定性。
+
+  - id: opinion-sign
+    label: 署名与日期
+    required: true
+    keywords: [律师事务所, 律师, 日期]
+    parties: [受托律所]
+    basis:
+      - 律师法第28条
+    note: 承办律师签名并加盖律师事务所公章；注明出具日期。
+
+tips:
+  - 法律意见书不是胜诉承诺：应写明假设、依据与免责范围，避免被误读为担保。
+  - 区分「必须」「应当」「可以」等规范语气，结论要经得起复核。
+  - 重大交易或合规事项建议附检索报告与法规清单。

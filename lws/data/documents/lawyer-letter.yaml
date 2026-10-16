@@ -1,0 +1,81 @@
+type: lawyer-letter
+label: 律师函
+category: 非诉法律文书
+usage: 律师事务所接受委托，以律师名义就特定事项向相对方发出的正式交涉文书，常用于催告、声明、警示。
+
+party_notes:
+  委托人: 律师函基于委托人陈述与授权发出，内容应真实；不实陈述可能使委托人承担相应责任。
+  收函人: 收函人应正视函中主张与期限；逾期可能触发后续诉讼、保全或信用后果。
+
+legal_basis:
+  - 律师法第28条
+  - 律师法第31条
+
+structure:
+  - 文书标题：律师函
+  - 致送对象
+  - 委托与授权情况
+  - 基本事实与主张
+  - 法律分析与要求
+  - 期限与后果提示
+  - 署名与日期（加盖律师事务所公章）
+
+elements:
+  - id: letter-to
+    label: 致送对象
+    required: true
+    keywords: [致, 收函人]
+    parties: [收函人]
+    basis:
+      - 律师法第31条
+    note: 写明收函人姓名或名称与地址；确保可送达，保留邮寄凭证。
+
+  - id: letter-auth
+    label: 委托与授权情况
+    required: true
+    keywords: [受, 委托, 指派, 律师事务所]
+    parties: [委托人]
+    basis:
+      - 律师法第28条
+    note: 写明委托人与受托律所、承办律师及授权范围；表明发函依据。
+
+  - id: letter-facts
+    label: 基本事实与主张
+    required: true
+    keywords: [事实, 主张, 欠款, 违约]
+    parties: [委托人]
+    basis:
+      - 律师法第31条
+    note: 客观陈述事实与委托人主张，引用合同或凭证编号，避免夸大。
+
+  - id: letter-demand
+    label: 法律分析与要求
+    required: true
+    keywords: [要求, 请求, 履行, 支付]
+    parties: [收函人]
+    basis:
+      - 律师法第31条
+    note: 指明违反的条款与法律依据，提出具体、可量化的履行要求。
+
+  - id: letter-deadline
+    label: 期限与后果提示
+    required: false
+    keywords: [期限, 否则, 后果, 起诉]
+    parties: [收函人]
+    basis:
+      - 律师法第31条
+    note: 给出合理履行期限，并提示逾期可能采取诉讼、保全等措施。
+
+  - id: letter-sign
+    label: 署名与日期
+    required: true
+    keywords: [律师事务所, 律师, 日期]
+    parties: [委托人]
+    basis:
+      - 律师法第28条
+    note: 承办律师签名并加盖律师事务所公章；注明发函日期与联系方式。
+
+tips:
+  - 律师函重在「有据、有度」：事实清楚、要求具体、措辞专业而不挑衅。
+  - 催告类函件是中断诉讼时效、固定证据的常见前置动作，建议留存送达回证。
+  - 内容须基于委托人真实授权与材料，不得虚构或误导。

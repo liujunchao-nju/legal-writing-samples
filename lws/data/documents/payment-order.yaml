@@ -1,0 +1,91 @@
+type: payment-order
+label: 支付令申请书
+category: 民事诉讼文书
+usage: 债权人与债务人无其他债务纠纷且支付令可送达时，向有管辖权的基层人民法院申请支付令，快捷实现金钱或有价证券债权。
+
+party_notes:
+  申请人: 须满足「无对待给付义务、支付令能送达、未申请诉前保全」等条件；请求须到期且数额确定。
+  被申请人: 债务人可在收到支付令之日起十五日内提出书面异议，异议成立则支付令失效，转入诉讼。
+
+legal_basis:
+  - 民事诉讼法第225条
+  - 民诉法解释第427条
+  - 民诉法解释第429条
+  - 劳动争议调解仲裁法第16条
+
+structure:
+  - 文书标题：支付令申请书
+  - 申请人身份信息
+  - 被申请人身份信息
+  - 请求事项
+  - 事实与理由
+  - 证据和证据来源
+  - 此致有管辖权的基层人民法院
+  - 申请人签名与日期
+
+elements:
+  - id: party-applicant
+    label: 申请人身份信息
+    required: true
+    keywords: [申请人, 债权人]
+    parties: [申请人]
+    basis:
+      - 民事诉讼法第225条
+    note: 申请人为债权人；写明姓名、住所、联系方式；法人写明名称、住所、法定代表人。
+
+  - id: party-respondent
+    label: 被申请人身份信息
+    required: true
+    keywords: [被申请人, 债务人]
+    parties: [被申请人]
+    basis:
+      - 民事诉讼法第225条
+    note: 写明债务人身份信息及可送达地址；支付令必须能送达债务人。
+
+  - id: order-request
+    label: 请求事项
+    required: true
+    keywords: [请求事项, 支付令, 请求]
+    parties: [申请人]
+    basis:
+      - 民事诉讼法第225条
+      - 民诉法解释第427条
+    note: 写明请求给付金钱或有价证券的数量及依据；请求须到期、数额确定。
+
+  - id: order-reason
+    label: 事实与理由
+    required: true
+    keywords: [事实与理由, 事实和理由]
+    basis:
+      - 民事诉讼法第225条
+      - 民诉法解释第427条
+    note: 说明债权债务关系明确、无对待给付义务、可送达；劳动争议调解协议的可引第16条。
+
+  - id: order-evidence
+    label: 证据和证据来源
+    required: true
+    keywords: [证据]
+    basis:
+      - 民事诉讼法第225条
+    note: 列明债权凭证（借条、合同、调解协议）及证明目的。
+
+  - id: order-court
+    label: 有管辖权的基层人民法院
+    required: true
+    keywords: [此致]
+    basis:
+      - 民事诉讼法第225条
+    note: 向有管辖权的基层人民法院申请；「此致」后写法院全称。
+
+  - id: order-signature
+    label: 申请人签名与日期
+    required: true
+    keywords: [申请人, 具状人]
+    basis:
+      - 民事诉讼法第225条
+    note: 申请人签名或盖章；法人加盖公章；日期写提交日。
+
+tips:
+  - 支付令是快捷通道：省去开庭，但前提是「无对待给付义务、可送达、未申请诉前保全」。
+  - 债务人十五日内可提书面异议，异议成立即失效转入诉讼，故适用于无争议债权。
+  - 劳动争议中持调解协议申请支付令是常见用法（劳动争议调解仲裁法第16条）。

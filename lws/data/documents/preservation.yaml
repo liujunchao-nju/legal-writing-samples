@@ -1,0 +1,90 @@
+type: preservation
+label: 诉讼财产保全申请书
+category: 民事诉讼文书
+usage: 在诉讼过程中，一方当事人为避免判决难以执行或造成其他损害，申请人民法院对被申请人财产采取查封、扣押、冻结等措施。
+
+party_notes:
+  申请人: 可申请财产保全或行为保全；法院可责令提供担保，不提供则驳回；保全限于请求范围或与本案有关的财物。
+  被申请人: 被申请人可就保全裁定申请复议；保全申请有错误的，申请人应赔偿被申请人因此遭受的损失。
+
+legal_basis:
+  - 民事诉讼法第103条
+  - 民事诉讼法第105条
+  - 民事诉讼法第108条
+
+structure:
+  - 文书标题：诉讼财产保全申请书
+  - 申请人身份信息
+  - 被申请人身份信息
+  - 请求保全的事项
+  - 事实与理由
+  - 担保情况
+  - 此致受理案件的人民法院
+  - 申请人签名与日期
+
+elements:
+  - id: party-applicant
+    label: 申请人身份信息
+    required: true
+    keywords: [申请人]
+    parties: [申请人]
+    basis:
+      - 民事诉讼法第103条
+    note: 写明姓名、性别、年龄、民族、职业、住所、联系方式；法人写明名称、住所、法定代表人。
+
+  - id: party-respondent
+    label: 被申请人身份信息
+    required: true
+    keywords: [被申请人]
+    parties: [被申请人]
+    basis:
+      - 民事诉讼法第103条
+    note: 写明被申请人身份信息及被申请保全财产线索（账号、权属、所在地）。
+
+  - id: preserve-request
+    label: 请求保全的事项
+    required: true
+    keywords: [请求事项, 请求保全, 保全请求]
+    parties: [申请人]
+    basis:
+      - 民事诉讼法第103条
+      - 民事诉讼法第105条
+    note: 明确保全对象（财产或行为）、金额或范围；保全限于请求范围或与本案有关的财物。
+
+  - id: preserve-reason
+    label: 事实与理由
+    required: true
+    keywords: [事实与理由, 事实和理由]
+    basis:
+      - 民事诉讼法第103条
+    note: 说明存在使判决难以执行或其他损害的可能，并指向具体财产线索。
+
+  - id: preserve-guarantee
+    label: 担保情况
+    required: false
+    keywords: [担保]
+    parties: [申请人]
+    basis:
+      - 民事诉讼法第103条
+    note: 法院可责令提供担保；写明担保方式（保函、保证金、实物）及金额。
+
+  - id: preserve-court
+    label: 受理案件的人民法院
+    required: true
+    keywords: [此致]
+    basis:
+      - 民事诉讼法第103条
+    note: 向受理本案的人民法院提出；「此致」后写法院全称。
+
+  - id: preserve-signature
+    label: 申请人签名与日期
+    required: true
+    keywords: [申请人, 具状人]
+    basis:
+      - 民事诉讼法第103条
+    note: 申请人签名或盖章、法人加盖公章；日期写提交日。
+
+tips:
+  - 诉中保全依申请或法院依职权；情况紧急的可在起诉前申请（诉前保全，另有规定）。
+  - 担保是常见要求：保险公司保函是实践中常用且成本较低的方式。
+  - 申请错误要担责：被申请人因保全遭受损失的，可请求赔偿。

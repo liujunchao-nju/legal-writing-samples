@@ -1,0 +1,88 @@
+type: counterclaim
+label: 民事反诉状
+category: 民事诉讼文书
+usage: 本诉被告在案件受理后、法庭辩论结束前，向受理本诉的人民法院提出，针对本诉原告主张独立的反请求，与本诉合并审理。
+
+party_notes:
+  反诉人: 反诉须与本诉有牵连（基于同一法律关系或同一事实），且在本诉法庭辩论终结前提出；请求要具体可执行。
+  被反诉人: 作为本诉原告，应对反诉一并答辩；反诉与本诉合并审理，不另计答辩期届满日。
+
+legal_basis:
+  - 民事诉讼法第143条
+  - 民诉法解释第232条
+
+structure:
+  - 文书标题：民事反诉状
+  - 反诉人（本诉被告）身份信息
+  - 被反诉人（本诉原告）身份信息
+  - 反诉请求
+  - 事实与理由
+  - 证据和证据来源
+  - 此致受理本诉的人民法院
+  - 反诉人签名与日期
+
+elements:
+  - id: party-counter
+    label: 反诉人身份信息
+    required: true
+    keywords: [反诉人]
+    parties: [反诉人]
+    basis:
+      - 民事诉讼法第143条
+    note: 反诉人是本诉被告；写明姓名、性别、年龄、民族、职业、工作单位、住所、联系方式；法人写明名称、住所、法定代表人。
+
+  - id: party-counter-defendant
+    label: 被反诉人身份信息
+    required: true
+    keywords: [被反诉人]
+    parties: [被反诉人]
+    basis:
+      - 民事诉讼法第143条
+    note: 被反诉人是本诉原告；写明其身份信息，便于法院合并送达。
+
+  - id: counter-claims
+    label: 反诉请求
+    required: true
+    keywords: [反诉请求]
+    parties: [反诉人]
+    basis:
+      - 民事诉讼法第143条
+      - 民诉法解释第232条
+    note: 反诉请求须具体、可执行，并与本诉具有牵连关系；可抵销或吞并本诉请求。
+
+  - id: counter-facts
+    label: 事实与理由
+    required: true
+    keywords: [事实与理由, 事实和理由]
+    basis:
+      - 民诉法解释第232条
+    note: 围绕反诉请求陈述事实，说明与本诉的牵连；理由落到法条与请求权基础。
+
+  - id: counter-evidence
+    label: 证据和证据来源
+    required: true
+    keywords: [证据]
+    basis:
+      - 民事诉讼法第143条
+    note: 列明证据名称、页数与证明目的；与反诉请求一一对应。
+
+  - id: counter-court
+    label: 受理本诉的人民法院
+    required: true
+    keywords: [此致]
+    basis:
+      - 民事诉讼法第143条
+    note: 反诉向受理本诉的人民法院提出，不得另择管辖法院；「此致」后写该法院全称。
+
+  - id: counter-signature
+    label: 反诉人签名与日期
+    required: true
+    keywords: [反诉人, 具状人]
+    basis:
+      - 民事诉讼法第143条
+    note: 反诉人签名或捺印、法人加盖公章；日期写提交日。
+
+tips:
+  - 反诉的牵连性是核心：须与本诉基于同一法律关系或同一事实，否则法院不予合并。
+  - 提出时间窗口为案件受理后、法庭辩论终结前，逾期只能另案起诉。
+  - 反诉受理费与本诉分别计算，法院会在受理时通知。

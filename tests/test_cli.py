@@ -14,7 +14,7 @@ def test_cli_list(capsys):
     out = capsys.readouterr().out
     assert "complaint" in out
     assert "民事起诉状" in out
-    assert "6 篇范文" in out
+    assert "15 篇范文" in out
 
 
 def test_cli_show_type(capsys):
@@ -45,9 +45,40 @@ def test_cli_outline(capsys):
 
 
 def test_cli_check_sample_passes(capsys):
-    for slug in ["01", "02", "03", "04", "05", "06"]:
+    for slug in [f"{i:02d}" for i in range(1, 16)]:
         assert main(["check", "--sample", slug]) == 0, slug
     capsys.readouterr()
+
+
+def test_cli_outline_party(capsys):
+    assert main(["outline", "--type", "complaint", "--party", "原告"]) == 0
+    out = capsys.readouterr().out
+    assert "立场视角" in out
+    assert "原告" in out
+
+
+def test_cli_outline_html_self_contained(capsys, tmp_path):
+    out_file = tmp_path / "outline.html"
+    code = main(
+        ["outline", "--type", "complaint", "--format", "html", "--out", str(out_file)]
+    )
+    assert code == 0
+    html = out_file.read_text(encoding="utf-8")
+    assert "<html" in html or "<!DOCTYPE" in html or "<style" in html
+    assert "http://" not in html
+    assert "https://" not in html
+
+
+def test_cli_check_html_self_contained(capsys, tmp_path):
+    out_file = tmp_path / "check.html"
+    code = main(
+        ["check", "--type", "complaint", "--sample", "01",
+         "--format", "html", "--out", str(out_file)]
+    )
+    assert code == 0
+    html = out_file.read_text(encoding="utf-8")
+    assert "http://" not in html
+    assert "https://" not in html
 
 
 def test_cli_check_file_missing_elements(capsys, tmp_path):

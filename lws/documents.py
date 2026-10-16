@@ -108,8 +108,11 @@ def _normalize(text: str) -> str:
     return "".join(text.split())
 
 
-def check_document(doc_type: str, text: str) -> dict:
-    """对照要素模型校验一份文书，返回齐备与缺失情况。"""
+def check_document(doc_type: str, text: str, party: str | None = None) -> dict:
+    """对照要素模型校验一份文书，返回齐备与缺失情况。
+
+    party 为可选立场（如 原告 / 被告），用于在结果中附带该立场的提示。
+    """
     doc = load_document(doc_type)
     body = _normalize(text)
 
@@ -128,9 +131,15 @@ def check_document(doc_type: str, text: str) -> dict:
     total_required = sum(1 for e in doc["elements"] if e.get("required"))
     hit_required = total_required - len(missing_required)
     coverage = round(hit_required / total_required * 100, 1) if total_required else 0.0
+
+    notes = doc.get("party_notes") or {}
+    party_note = notes.get(party) if party else None
+
     return {
         "type": doc["type"],
         "label": doc["label"],
+        "party": party,
+        "party_note": party_note,
         "total_required": total_required,
         "present": present,
         "missing_required": missing_required,

@@ -1,0 +1,79 @@
+type: withdrawal
+label: 撤诉申请书
+category: 民事诉讼文书
+usage: 原告在人民法院宣判前，主动申请撤回起诉；是否准许由人民法院裁定。
+
+party_notes:
+  申请人: 撤诉须在宣判前提出，是否准许由法院裁定；法庭辩论终结后被告不同意的，法院可不予准许。
+  被申请人: 被申请人可就撤诉是否损害其权益表态；撤诉后视为未起诉（离婚等特别规定除外）。
+
+legal_basis:
+  - 民事诉讼法第148条
+  - 民诉法解释第238条
+
+structure:
+  - 文书标题：撤诉申请书
+  - 申请人身份信息
+  - 被申请人身份信息
+  - 撤诉请求
+  - 事实与理由
+  - 此致受诉人民法院
+  - 申请人签名与日期
+
+elements:
+  - id: party-applicant
+    label: 申请人身份信息
+    required: true
+    keywords: [申请人, 原告]
+    parties: [申请人]
+    basis:
+      - 民事诉讼法第148条
+    note: 撤诉申请人为原告；写明姓名、住所、联系方式；法人写明名称、住所、法定代表人。
+
+  - id: party-respondent
+    label: 被申请人身份信息
+    required: false
+    keywords: [被申请人, 被告]
+    parties: [被申请人]
+    basis:
+      - 民事诉讼法第148条
+    note: 写明被申请人身份信息；撤诉通常通知对方当事人。
+
+  - id: withdraw-request
+    label: 撤诉请求
+    required: true
+    keywords: [请求事项, 撤诉, 撤回起诉]
+    parties: [申请人]
+    basis:
+      - 民事诉讼法第148条
+    note: 明确请求撤回对本案的起诉（或某项诉讼请求）。
+
+  - id: withdraw-reason
+    label: 事实与理由
+    required: true
+    keywords: [事实与理由, 事实和理由]
+    basis:
+      - 民事诉讼法第148条
+      - 民诉法解释第238条
+    note: 说明申请撤诉的原因（如双方和解、证据变化）；须自愿、合法，不损害国家、社会或他人利益。
+
+  - id: withdraw-court
+    label: 受诉人民法院
+    required: true
+    keywords: [此致]
+    basis:
+      - 民事诉讼法第148条
+    note: 向受诉人民法院提出；「此致」后写法院全称。
+
+  - id: withdraw-signature
+    label: 申请人签名与日期
+    required: true
+    keywords: [申请人, 具状人, 原告]
+    basis:
+      - 民事诉讼法第148条
+    note: 申请人签名或盖章；法人加盖公章；日期写提交日。
+
+tips:
+  - 撤诉窗口为宣判前；是否准许由法院裁定，并非必然同意（尤其涉及违法或损害第三人时）。
+  - 撤诉后一般视为未起诉，诉讼时效从撤诉裁定送达日起重新计算，注意衔接。
+  - 因和解撤诉的，建议同步固定和解协议，防止对方反悔。

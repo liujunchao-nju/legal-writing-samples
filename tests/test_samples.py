@@ -25,6 +25,15 @@ EXPECTED_SLUGS = {
     "04-appeal-labor",
     "05-retrial-house",
     "06-defense-speech-fishing",
+    "07-counterclaim",
+    "08-preservation",
+    "09-enforcement",
+    "10-jurisdiction-objection",
+    "11-withdrawal",
+    "12-payment-order",
+    "13-evidence-investigation",
+    "14-lawyer-letter",
+    "15-legal-opinion",
 }
 
 
