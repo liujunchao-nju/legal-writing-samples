@@ -75,6 +75,10 @@ def test_contract_clause_not_treated_as_law():
 def test_unknown_articles():
     assert unknown_articles("《中华人民共和国民法典》第五百七十七条") == []
     assert unknown_articles("《中华人民共和国民法典》第九百九十九条") == [999]
+    # 跨法错引：民事诉讼法有第 122 条，但民法典第 122 条未登记，不应漏报
+    assert unknown_articles("《中华人民共和国民法典》第一百二十二条") == [122]
+    # 支持阿拉伯数字条号
+    assert unknown_articles("《民法典》第999条") == [999]
 
 
 def test_known_articles_cover_key_provisions():

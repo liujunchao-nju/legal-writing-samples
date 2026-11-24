@@ -27,9 +27,9 @@ _CN_UNITS = {"十": 10, "百": 100, "千": 1000}
 # 书名号内出现「合同、协议、章程、条约、公约、办法、细则」等字样的，视为合同或协议条款引用，
 # 不计入法条校验，以免把「《商品房预售合同》第三十条」误判为法条。
 _LAW_NAME_RE = re.compile(
-    r"《(?![^》]*(?:合同|协议|章程|条约|公约|办法|细则))[^》]{2,40}》"
+    r"《(?![^》]*(?:合同|协议|章程|条约|公约|办法|细则))([^》]{2,40})》"
 )
-_ARTICLE_RE = re.compile(r"第([零一二三四五六七八九十百千]+)条")
+_ARTICLE_RE = re.compile(r"第([零一二三四五六七八九十百千]+|\d+)条")
 _STOP_CHARS = "。；;！？\n"
 
 
@@ -120,15 +120,59 @@ def verify_references(keys, index: dict | None = None) -> list[str]:
     return [k for k in keys if k not in index]
 
 
-def known_articles() -> set[int]:
+def _normalize_law_name(name: str) -> str:
+    """归一化法律名称：去掉常见前缀和内部空白，统一单双书名号，便于全称与简称匹配。"""
+    cleaned = "".join(name.split()).replace("〈", "《").replace("〉", "》")
+    if cleaned.startswith("中华人民共和国"):
+        cleaned = cleaned[len("中华人民共和国"):]
+    return cleaned
+
+
+def _law_aliases(record: dict) -> set[str]:
+    """从法条记录提取可匹配的法律名称集合（归一化全称 + key 中的简称 + 常见司法解释别称）。"""
+    aliases = {_normalize_law_name(record["law"])}
+    key = str(record.get("key", ""))
+    if "第" in key:
+        aliases.add(_normalize_law_name(key.split("第", 1)[0]))
+    # 支持「《民事诉讼法》司法解释第X条」这类书名号后接「司法解释」的常见写法
+    m_interp = re.search(r"[〈《]([^〉》]+)[〉》]的解释", record["law"])
+    if m_interp:
+        base_law = _normalize_law_name(m_interp.group(1))
+        aliases.add(f"{base_law}司法解释")
+    return aliases
+
+
+def known_articles(index: dict | None = None) -> set[int]:
     """返回法条库中出现过的全部条号。"""
-    return {int(record["article"]) for record in load_laws().values()}
+    index = index if index is not None else load_laws()
+    return {int(record["article"]) for record in index.values()}
 
 
-def cited_articles(text: str) -> set[int]:
-    """从文本中提取紧跟法律名称之后的条号，支持并列写法（如「第一百二十二条、第一百二十四条」）。"""
-    numbers: set[int] = set()
+def known_law_articles(index: dict | None = None) -> set[tuple[str, int]]:
+    """返回法条库中已登记的 (法律名称, 条号) 组合集合。"""
+    index = index if index is not None else load_laws()
+    pairs: set[tuple[str, int]] = set()
+    for record in index.values():
+        art = int(record["article"])
+        for alias in _law_aliases(record):
+            pairs.add((alias, art))
+    return pairs
+
+
+def _parse_article_num(raw: str) -> int | None:
+    if raw.isdigit():
+        return int(raw)
+    try:
+        return cn_to_int(raw)
+    except ValueError:
+        return None
+
+
+def cited_law_articles(text: str) -> set[tuple[str, int]]:
+    """从文本中提取紧跟法律名称之后的 (法律名称, 条号) 组合，支持并列写法与阿拉伯数字。"""
+    pairs: set[tuple[str, int]] = set()
     for match in _LAW_NAME_RE.finditer(text):
+        law_name = _normalize_law_name(match.group(1))
         tail = text[match.end():]
         stops = [len(tail)]
         for ch in _STOP_CHARS:
@@ -139,17 +183,25 @@ def cited_articles(text: str) -> set[int]:
         if idx != -1:
             stops.append(idx)
         segment = tail[: min(stops)]
+        if segment.lstrip().startswith("司法解释"):
+            law_name = f"{law_name}司法解释"
         for article in _ARTICLE_RE.finditer(segment):
-            try:
-                numbers.add(cn_to_int(article.group(1)))
-            except ValueError:
-                continue
-    return numbers
+            num = _parse_article_num(article.group(1))
+            if num is not None:
+                pairs.add((law_name, num))
+    return pairs
+
+
+def cited_articles(text: str) -> set[int]:
+    """从文本中提取紧跟法律名称之后的条号，支持并列写法（如「第一百二十二条、第一百二十四条」）。"""
+    return {num for _, num in cited_law_articles(text)}
 
 
 def unknown_articles(text: str, index: dict | None = None) -> list[int]:
-    """返回文本中引用但未在法条库登记过的条号。"""
-    return sorted(cited_articles(text) - known_articles())
+    """返回文本中引用但未在法条库对应法律名下登记过的条号。"""
+    known_pairs = known_law_articles(index)
+    missing = {num for law_name, num in cited_law_articles(text) if (law_name, num) not in known_pairs}
+    return sorted(missing)
 
 
 def format_law(key: str, index: dict | None = None) -> str:
